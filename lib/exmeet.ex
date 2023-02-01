@@ -27,7 +27,7 @@ defmodule Exmeet do
         longitude: {:string, :required}
       ]
     },
-    get_hotel_details: %{
+    search_hotel_details: %{
       url: "/hotel/search/detail/",
       method: :get,
       params: [
@@ -42,6 +42,20 @@ defmodule Exmeet do
       method: :get,
       params: [
         search: {:string, :required}
+      ]
+    },
+    get_hotel_details: %{
+      url: "/hotel/:id/detail/",
+      method: :get,
+      params: [
+        id: {:string, :required}
+      ]
+    },
+    get_hotel_reviews: %{
+      url: "/hotel/:id/review/",
+      method: :get,
+      params: [
+        id: {:string, :required}
       ]
     }
   }
@@ -62,7 +76,8 @@ defmodule Exmeet do
   defp params_for_httpoison(:post, url, params) do
     [
       url,
-      Poison.encode!(params),
+      # asdadas
+      Poison.encode!(Map.new(params)),
       @headers,
       @options
     ]
@@ -70,10 +85,27 @@ defmodule Exmeet do
 
   defp params_for_httpoison(:get, url, params) do
     [
-      url,
+      evaluate_url_params(url, params),
       @headers,
       @options ++ [params: params]
     ]
+  end
+
+  defp evaluate_url_params(url, params) do
+    regex = ~r/(?<name>:[^\/]+)/
+
+    named_params =
+      Regex.scan(regex, url)
+      |> List.flatten()
+      |> Enum.uniq()
+
+    Enum.reduce(named_params, url, fn item, acc ->
+      String.replace(
+        acc,
+        item,
+        Keyword.get(params, String.to_atom(String.replace(item, ":", ""))) |> to_string()
+      )
+    end)
   end
 
   defp validate_params(params, params_def) do
