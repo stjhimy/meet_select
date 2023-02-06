@@ -76,7 +76,6 @@ defmodule Exmeet do
   defp params_for_httpoison(:post, url, params) do
     [
       url,
-      # asdadas
       Poison.encode!(Map.new(params)),
       @headers,
       @options
