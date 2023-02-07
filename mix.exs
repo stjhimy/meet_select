@@ -22,7 +22,7 @@ defmodule MeetSelect.MixProject do
   defp deps do
     [
       {:poison, "~> 5.0"},
-      {:httpoison, "~> 2.0"},
+      {:httpoison, ">= 1.4.0"},
       {:mock, "~> 0.3.0", only: :test},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.27", only: :dev, runtime: false}
