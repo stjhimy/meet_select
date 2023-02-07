@@ -6,7 +6,8 @@ defmodule MeetSelect.Macros do
     |> Enum.map(fn {name, details} ->
       quote do
         @doc unquote(details.doc)
-        @spec unquote(name)(Params.type_for_params(unquote(details.params))) :: {integer(), any()}
+        @spec unquote(name)(Params.type_for_params(unquote(details.params))) ::
+                {:ok, %HTTPoison.Response{}} | {:error, any()}
         def unquote(name)(params) do
           Params.validate_params(params, unquote(details.params))
 
