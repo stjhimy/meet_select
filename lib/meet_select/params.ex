@@ -12,10 +12,11 @@ defmodule MeetSelect.Params do
   defp type_for_param(:string), do: quote(do: String.t())
   defp type_for_param(type), do: Code.string_to_quoted!(type)
 
+  @spec validate_params(keyword(), keyword()) :: :ok | {:error, any()}
   def validate_params(params, params_def) do
     case filter_required_params(params_def) -- Enum.map(params, &elem(&1, 0)) do
-      [] -> true
-      missing -> raise("Missing required params: #{inspect(missing)}")
+      [] -> :ok
+      missing -> {:error, %{message: "Missing required params: #{inspect(missing)}"}}
     end
   end
 

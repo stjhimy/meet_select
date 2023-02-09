@@ -12,15 +12,13 @@ defmodule MeetSelectTest do
     {:ok, []}
   end
 
-  describe "authenticate" do
+  describe "api_aith_token" do
     test "required params" do
-      assert_raise RuntimeError, "Missing required params: [:username, :password]", fn ->
-        MeetSelect.authenticate([])
-      end
+      assert {:error, _} = MeetSelect.auth_api_token([])
     end
 
     test "request" do
-      MeetSelect.authenticate(%{username: "foo", password: "bar"})
+      MeetSelect.auth_api_token(%{username: "foo", password: "bar"})
 
       assert_called(
         Request.post(
@@ -35,15 +33,11 @@ defmodule MeetSelectTest do
 
   describe "search_hotels" do
     test "required params" do
-      assert_raise RuntimeError,
-                   "Missing required params: [:check_in, :check_out, :rooms, :adults, :latitude, :longitude]",
-                   fn ->
-                     MeetSelect.search_hotels([])
-                   end
+      assert {:error, _} = MeetSelect.hotel_search_list([])
     end
 
     test "request" do
-      MeetSelect.search_hotels(%{
+      MeetSelect.hotel_search_list(%{
         check_in: "2023-01-01",
         check_out: "2023-01-02",
         rooms: 1,
