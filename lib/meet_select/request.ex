@@ -1,7 +1,7 @@
 defmodule MeetSelect.Request do
   use HTTPoison.Base
 
-  @base_url "https://kirk.meetselect.com"
+  @base_url "https://www.meetselect.com/"
   @api_version "v2"
 
   def process_request_url(url) do
