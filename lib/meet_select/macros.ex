@@ -9,6 +9,8 @@ defmodule MeetSelect.Macros do
         @spec unquote(name)(Params.type_for_params(unquote(details.params))) ::
                 {:ok, %HTTPoison.Response{}} | {:error, any()}
         def unquote(name)(params) do
+          params = Params.keys_to_atom(params)
+
           with :ok <- Params.validate_params(params, unquote(details.params)) do
             apply(
               Request,

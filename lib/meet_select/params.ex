@@ -59,4 +59,12 @@ defmodule MeetSelect.Params do
       )
     end)
   end
+
+  def keys_to_atom(map) do
+    Enum.map(map, fn
+      {k, v} when not is_atom(k) -> {String.to_atom(k), v}
+      {k, v} when is_atom(k) -> {k, v}
+    end)
+    |> Enum.sort()
+  end
 end

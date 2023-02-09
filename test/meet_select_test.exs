@@ -49,14 +49,14 @@ defmodule MeetSelectTest do
       assert_called(
         Request.get("/hotel/search/list/", [{"Content-Type", "application/json"}],
           recv_timeout: :infinity,
-          params: %{
+          params: [
             adults: 1,
             check_in: "2023-01-01",
             check_out: "2023-01-02",
             latitude: "lat",
             longitude: "long",
             rooms: 1
-          }
+          ]
         )
       )
     end
